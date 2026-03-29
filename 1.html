@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+      // вариант 4
+      // 4.   f(x)=2+4/(x3-1.5)   x0=2, x1=2.7, x2=5, x3=3, x=4
+      function fx(x) {
+        return Number((2 + 4 / (x * 3 - 1.5)).toFixed(4));
+      }
+      const xNodes = [2, 2.7, 5, 3];
+      const yNodes = [];
+      for (let i = 0; i < 4; i++) {
+        yNodes.push(fx(xNodes[i]));
+      }
+      const Pn = lagrangeInterpolation(xNodes, yNodes, 4);
+      console.log(
+        `Xk: `,
+        xNodes,
+        `\nf(Xk): `,
+        yNodes,
+        `\nполиномное: `,
+        Pn,
+        `\nвычесленное: `,
+        fx(4),
+      );
+      function lagrangeInterpolation(xNodes, yNodes, x) {
+        const n = xNodes.length;
+        if (yNodes.length !== n) {
+          throw new Error("Количество узлов x и y должно совпадать");
+        }
+        let result = 0;
+        for (let i = 0; i < n; i++) {
+          let basisPolynomial = 1;
+          for (let j = 0; j < n; j++) {
+            if (i !== j) {
+              basisPolynomial *= (x - xNodes[j]) / (xNodes[i] - xNodes[j]);
+            }
+          }
+          result += yNodes[i] * basisPolynomial;
+        }
+        return result;
+      }
+    </script>
+    <style>
+      body {
+        background-color: black;
+      }
+    </style>
+  </head>
+  <body></body>
+</html>
