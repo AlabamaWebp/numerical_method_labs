@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+      // вариант 4
+      // 4.   f(x)=2+4/(x3-1.5)   x0=2, x1=2.7, x2=5, x3=3, x=4
+      function fx(x) {
+        return Number((2 + 4 / (x * 3 - 1.5)).toFixed(4));
+      }
+      // четвертая производная функции f(x)
+      // f(x) = 2 + 4·(3x - 1.5)⁻¹
+      // f'(x) = -12·(3x - 1.5)⁻²
+      // f''(x) = 72·(3x - 1.5)⁻³
+      // f'''(x) = -648·(3x - 1.5)⁻⁴
+      // f''''(x) = 7776·(3x - 1.5)⁻⁵ = 7776 / (3x - 1.5)⁵
+      function fx4(x) {
+        const denominator = Math.pow(3 * x - 1.5, 5);
+        return 7776 / denominator;
+      }
+      // оценка погрешности интерполирования
+      function errorEstimation(xNodes, x) {
+        const n = xNodes.length;
+        // вычисление ω_n(x) = ∏(x - x_i)
+        let omega = 1;
+        for (let i = 0; i < n; i++) {
+          omega *= x - xNodes[i];
+        }
+        // находим интервал, содержащий все узлы и точку x
+        const allPoints = [...xNodes, x];
+        const minX = Math.min(...allPoints);
+        const maxX = Math.max(...allPoints);
+        // максимальное значение производной на интервале
+        // f''''(x) = 7776 / (3x - 1.5)^5 - убывает при увеличении x
+        const maxDerivative = fx4(minX);
+        const factorial = 1 * 2 * 3 * 4; // (n+1)! = 4! = 24
+        const errorBound = Math.abs((maxDerivative * omega) / factorial);
+        return errorBound;
+      }
+      // 1. Построение интерполяционного многочлена Ньютона
+      function newtonInterpolation(xNodes, yNodes, x) {
+        const n = xNodes.length;
+        // создаем копию коэффициентов (разделенные разности)
+        const coeffs = [...yNodes];
+        
+        // вычисление разделенных разностей
+        for (let i = 1; i < n; i++) {
+          for (let j = n - 1; j >= i; j--) {
+            coeffs[j] = (coeffs[j] - coeffs[j - 1]) / (xNodes[j] - xNodes[j - i]);
+          }
+        }
+        
+        // вычисление значения многочлена Ньютона в точке x
+        let result = coeffs[n - 1];
+        for (let i = n - 2; i >= 0; i--) {
+          result = result * (x - xNodes[i]) + coeffs[i];
+        }
+        
+        return Number(result.toFixed(4));
+      }
+      
+      const xNodes = [2, 2.7, 5, 3];
+      const yNodes = [];
+      for (let i = 0; i < 4; i++) {
+        yNodes.push(fx(xNodes[i]));
+      }
+      
+      // значение многочлена Ньютона в точке x=4
+      const newtonValue = newtonInterpolation(xNodes, yNodes, 4);
+      
+      // значение многочлена Лагранжа в точке x=4
+      const lagrangeValue = lagrangeInterpolation(xNodes, yNodes, 4);
+      
+      // фактическое значение функции в точке x=4
+      const actualValue = fx(4);
+      
+      // оценка погрешности
+      const errorBound = errorEstimation(xNodes, 4);
+      
+      // 2. Сравнение многочленов Ньютона и Лагранжа
+      console.log(
+        `Xk: `,
+        xNodes,
+        `\nf(Xk): `,
+        yNodes,
+        `\nмногочлен Ньютона в x=4: `,
+        newtonValue,
+        `\nмногочлен Лагранжа в x=4: `,
+        lagrangeValue,
+        `\nфактическое значение f(4): `,
+        actualValue,
+        `\nпогрешность Ньютона: `,
+        Math.abs(newtonValue - actualValue).toFixed(4),
+        `\nпогрешность Лагранжа: `,
+        Math.abs(lagrangeValue - actualValue).toFixed(4),
+        `\nоценка погрешности (теория): `,
+        errorBound.toFixed(4),
+      );
+      
+      function lagrangeInterpolation(xNodes, yNodes, x) {
+        const n = xNodes.length;
+        if (yNodes.length !== n) {
+          throw new Error("Количество узлов x и y должно совпадать");
+        }
+        let result = 0;
+        for (let i = 0; i < n; i++) {
+          let basisPolynomial = 1;
+          for (let j = 0; j < n; j++) {
+            if (i !== j) {
+              basisPolynomial *= (x - xNodes[j]) / (xNodes[i] - xNodes[j]);
+            }
+          }
+          result += yNodes[i] * basisPolynomial;
+        }
+        return Number(result.toFixed(4));
+      }
+    </script>
+    <style>
+      body {
+        background-color: black;
+      }
+    </style>
+  </head>
+  <body></body>
+</html>
