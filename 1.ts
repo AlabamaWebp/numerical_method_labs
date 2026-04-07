@@ -27,7 +27,6 @@ export function errorEstimation(xNodes: number[], x: number): number {
   // находим интервал, содержащий все узлы и точку x
   const allPoints = [...xNodes, x];
   const minX = Math.min(...allPoints);
-  const maxX = Math.max(...allPoints);
   // максимальное значение производной на интервале
   // f''''(x) = 7776 / (3x - 1.5)^5 - убывает при увеличении x
   const maxDerivative = fx4(minX);
@@ -74,5 +73,6 @@ console.log(
   y: ${y}
   Предсказание по Лагранжу: ${Pn.toFixed(4)}
   Посчитанное функцией: ${actualValue}
-  Оценка погрешности: ${errorBound.toFixed(4)}`,
+  Оценка погрешности: ${errorBound.toFixed(4)}
+  Реальная погрешность: ${(Pn - actualValue).toFixed(4)}`,
 );
