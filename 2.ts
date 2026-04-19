@@ -72,7 +72,7 @@ function buildDividedDifferenceTable(
 function printDividedDifferenceTable(xNodes: number[], table: number[][]): void {
   const n = xNodes.length;
   const diffColumns = Array.from({ length: n }, (_, order) =>
-    order === 0 ? "f[x_i]" : `Разн.${order}-го порядка`,
+    order === 0 ? "f[x_i]" : `Отношения ${order}-го порядка`,
   );
 
   const rows = xNodes.map((xValue, i) => {
