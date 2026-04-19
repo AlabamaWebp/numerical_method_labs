@@ -47,11 +47,63 @@ export function lagrangeInterpolation(
   return Number(result.toFixed(4));
 }
 
+function buildDividedDifferenceTable(
+  xNodes: number[],
+  yNodes: number[],
+): number[][] {
+  const n = xNodes.length;
+  const table: number[][] = Array.from({ length: n }, () => Array(n).fill(NaN));
+
+  for (let i = 0; i < n; i++) {
+    table[i][0] = yNodes[i];
+  }
+
+  for (let order = 1; order < n; order++) {
+    for (let i = 0; i < n - order; i++) {
+      table[i][order] =
+        (table[i + 1][order - 1] - table[i][order - 1]) /
+        (xNodes[i + order] - xNodes[i]);
+    }
+  }
+
+  return table;
+}
+
+function printDividedDifferenceTable(xNodes: number[], table: number[][]): void {
+  const n = xNodes.length;
+  const diffColumns = Array.from({ length: n }, (_, order) =>
+    order === 0 ? "f[x_i]" : `Разн.${order}-го порядка`,
+  );
+
+  const rows = xNodes.map((xValue, i) => {
+    const row: Record<string, string | number> = {
+      i,
+      x_i: xValue,
+    };
+
+    for (let order = 0; order < n; order++) {
+      const columnName = diffColumns[order];
+      row[columnName] =
+        i + order < n && !Number.isNaN(table[i][order])
+          ? Number(table[i][order].toFixed(6))
+          : "";
+    }
+
+    return row;
+  });
+
+  console.log("Таблица разделённых разностей:");
+  console.table(rows);
+}
+
 const x: number[] = [2, 2.7, 5, 3];
 const y: number[] = [];
 for (let i = 0; i < 4; i++) {
   y.push(fx(x[i]));
 }
+
+const dividedDifferenceTable = buildDividedDifferenceTable(x, y);
+printDividedDifferenceTable(x, dividedDifferenceTable);
 
 // значение многочлена Ньютона в точке x=4
 const newtonValue = newtonInterpolation(x, y, 4);
