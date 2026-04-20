@@ -1,6 +1,5 @@
 // Тема: Интерполирование функции в случае равноотстоящих узлов
 // f(x) = x^4 + 1/x, узлы: 2, 2.5, 3, 3.5, 4, точки: x = 2.9 и x = 4.5
-console.log(123);
 
 function f(x: number): number {
   return x ** 4 + 1 / x;
@@ -29,7 +28,7 @@ function buildFiniteDifferenceTable(y: number[]): number[][] {
   return table;
 }
 
-function format(value: number, digits = 6): string {
+function format(value: number, digits = 4): string {
   return value.toFixed(digits);
 }
 
@@ -157,8 +156,8 @@ for (const x of xTargets) {
 
   console.log(`x = ${x}`);
   console.log(`  Выбранная формула: ${method}`);
-  console.log(`  Интерполированное значение: ${format(approx, 6)}`);
-  console.log(`  Точное значение:            ${format(exact, 6)}`);
-  console.log(`  Абсолютная погрешность:     ${format(absError, 6)}`);
+  console.log(`  Интерполированное значение: ${format(approx)}`);
+  console.log(`  Точное значение:            ${format(exact)}`);
+  console.log(`  Абсолютная погрешность:     ${format(absError)}`);
   console.log();
 }
