@@ -33,18 +33,35 @@ function format(value: number, digits = 4): string {
 }
 
 function printFiniteDifferenceTable(xNodes: number[], table: number[][]): void {
+  const widths = [3, 7, 12, 12, 12, 12, 12];
+  const cell = (text: string, width: number): string => text.padStart(width, " ");
+
   const n = xNodes.length;
   console.log("Таблица конечных разностей (до 4-го порядка):");
-  console.log("i\tx_i\ty_i\t\tΔy_i\t\tΔ²y_i\t\tΔ³y_i\t\tΔ⁴y_i");
+  const header = [
+    cell("i", widths[0]),
+    cell("x_i", widths[1]),
+    cell("y_i", widths[2]),
+    cell("Δy_i", widths[3]),
+    cell("Δ²y_i", widths[4]),
+    cell("Δ³y_i", widths[5]),
+    cell("Δ⁴y_i", widths[6]),
+  ].join(" ");
+  console.log(header);
+  console.log("-".repeat(header.length));
 
   for (let i = 0; i < n; i++) {
-    const y = table[0][i] !== undefined ? format(table[0][i]) : "";
-    const d1 = table[1][i] !== undefined ? format(table[1][i]) : "";
-    const d2 = table[2][i] !== undefined ? format(table[2][i]) : "";
-    const d3 = table[3][i] !== undefined ? format(table[3][i]) : "";
-    const d4 = table[4][i] !== undefined ? format(table[4][i]) : "";
+    const row = [
+      cell(String(i), widths[0]),
+      cell(format(xNodes[i], 1), widths[1]),
+      cell(table[0][i] !== undefined ? format(table[0][i]) : "", widths[2]),
+      cell(table[1][i] !== undefined ? format(table[1][i]) : "", widths[3]),
+      cell(table[2][i] !== undefined ? format(table[2][i]) : "", widths[4]),
+      cell(table[3][i] !== undefined ? format(table[3][i]) : "", widths[5]),
+      cell(table[4][i] !== undefined ? format(table[4][i]) : "", widths[6]),
+    ].join(" ");
 
-    console.log(`${i}\t${xNodes[i]}\t${y}\t${d1}\t${d2}\t${d3}\t${d4}`);
+    console.log(row);
   }
   console.log();
 }
