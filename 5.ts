@@ -121,14 +121,14 @@ const simpsonEstimatedError = simpsonErrorEstimate(a, b, N);
 console.log("Точное значение интеграла:", exact);
 
 console.log("\nМетод трапеций:");
-console.log("Приближённое значение:", trapezoidal);
-console.log("Реальная погрешность:", trapezoidalRealError);
-console.log("Оценка погрешности:", trapezoidalEstimatedError);
+console.log("Приближённое значение:", trapezoidal.toFixed(4));
+console.log("Реальная погрешность:", trapezoidalRealError.toFixed(4));
+console.log("Оценка погрешности:", trapezoidalEstimatedError.toFixed(4));
 
 console.log("\nМетод парабол / Симпсона:");
-console.log("Приближённое значение:", simpson);
-console.log("Реальная погрешность:", simpsonRealError);
-console.log("Оценка погрешности:", simpsonEstimatedError);
+console.log("Приближённое значение:", simpson.toFixed(4));
+console.log("Реальная погрешность:", simpsonRealError.toFixed(4));
+console.log("Оценка погрешности:", simpsonEstimatedError.toFixed(4));
 
 console.log("\nСравнение:");
 console.log(
