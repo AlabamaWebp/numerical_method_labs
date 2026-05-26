@@ -10,7 +10,6 @@ function f(x: number): number {
   return Math.pow(x, 4) + 1 / x;
 }
 
-// Первая производная не нужна для расчётов
 // function f1(x: number): number {
 //   return 4 * Math.pow(x, 3) - 1 / Math.pow(x, 2);
 // }
