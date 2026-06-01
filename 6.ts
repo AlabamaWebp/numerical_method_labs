@@ -10,7 +10,7 @@ function bisection(a: number, b: number, steps: number): [number, number] {
     const mid = (a + b) / 2;
 
     console.log(`Половинное деление ${i}:`);
-    console.log(`a = ${a}, b = ${b}, mid = ${mid}, f(mid) = ${f(mid)}`);
+    console.log(`a = ${a}, b = ${b}, mid = ${mid}, f(mid) = ${f(mid).toFixed(2)}`);
 
     if (f(a) * f(mid) < 0) {
       b = mid;
@@ -30,7 +30,7 @@ function secant(xPrev: number, xCurr: number, steps: number): number {
       (f(xCurr) - f(xPrev));
 
     console.log(`Секущая ${i}:`);
-    console.log(`x = ${xNext}, f(x) = ${f(xNext)}`);
+    console.log(`x = ${xNext.toFixed(2)}, f(x) = ${f(xNext).toFixed(6)}`);
 
     xPrev = xCurr;
     xCurr = xNext;
@@ -39,19 +39,17 @@ function secant(xPrev: number, xCurr: number, steps: number): number {
   return xCurr;
 }
 
-// Начальный интервал: [0.4; 0.5]
-// f(0.4) < 0, f(0.5) > 0, значит корень внутри
 const a0 = 0.4;
 const b0 = 0.5;
 
-console.log(`f(0.4) = ${f(a0)}`);
-console.log(`f(0.5) = ${f(b0)}`);
+console.log(`f(0.4) = ${f(a0).toFixed(2)}`);
+console.log(`f(0.5) = ${f(b0).toFixed(2)}`);
 
 const [a, b] = bisection(a0, b0, 2);
 
-console.log(`После 2 итераций половинного деления: [${a}; ${b}]`);
+console.log(`После 2 итераций половинного деления: [${a.toFixed(2)}; ${b.toFixed(2)}]`);
 
 const root = secant(a, b, 3);
 
-console.log(`Приближенный корень: x = ${root}`);
-console.log(`Проверка: f(x) = ${f(root)}`);
+console.log(`Приближенный корень: x = ${(root.toFixed(2))}`);
+console.log(`Проверка: f(x) = ${f(root).toFixed(2)}`);

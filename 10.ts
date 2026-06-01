@@ -70,12 +70,12 @@ function luDecompositionWithPivoting(A: number[][]): {
 } {
   const n = A.length;
 
-  const U = A.map(row => [...row]);
+  const U = A.map((row) => [...row]);
 
   const L = Array.from({ length: n }, () => Array(n).fill(0));
 
   const P = Array.from({ length: n }, (_, i) =>
-    Array.from({ length: n }, (_, j) => (i === j ? 1 : 0))
+    Array.from({ length: n }, (_, j) => (i === j ? 1 : 0)),
   );
 
   for (let i = 0; i < n; i++) {
@@ -96,7 +96,7 @@ function luDecompositionWithPivoting(A: number[][]): {
       throw new Error("Матрица вырождена, LU-разложение невозможно");
     }
 
-    // Меняем строки в U и P
+    // Меняем строки местами
     if (maxRow !== k) {
       [U[k], U[maxRow]] = [U[maxRow], U[k]];
       [P[k], P[maxRow]] = [P[maxRow], P[k]];
@@ -124,9 +124,7 @@ function luDecompositionWithPivoting(A: number[][]): {
 // Вспомогательные функции
 
 function multiplyMatrixVector(A: number[][], v: number[]): number[] {
-  return A.map(row =>
-    row.reduce((sum, value, i) => sum + value * v[i], 0)
-  );
+  return A.map((row) => row.reduce((sum, value, i) => sum + value * v[i], 0));
 }
 
 function forwardSubstitution(L: number[][], b: number[]): number[] {
@@ -167,20 +165,23 @@ function printMatrix(name: string, matrix: number[][]): void {
   console.log(`${name}:`);
 
   for (const row of matrix) {
-    console.log(row.map(value => Number(value.toFixed(6))));
+    console.log(row.map((value) => Number(value.toFixed(4))));
   }
 }
 
 function printVector(name: string, vector: number[]): void {
-  console.log(`${name}:`, vector.map(value => Number(value.toFixed(6))));
+  console.log(
+    `${name}:`,
+    vector.map((value) => Number(value.toFixed(4))),
+  );
 }
 
 // Запуск решения
 
-console.log("Исходная матрица A:");
+console.log("Матрица A:");
 printMatrix("A", A);
 
-console.log("Исходный вектор b:");
+console.log("Вектор b:");
 printVector("b", b);
 
 // Решение методом Гаусса
@@ -196,19 +197,19 @@ const Pb = multiplyMatrixVector(P, b);
 const y = forwardSubstitution(L, Pb);
 const xLU = backSubstitution(U, y);
 
-console.log("\nLU-разложение с перестановкой строк:");
-printMatrix("P", P);
+console.log("\nLU-разложение:");
+// printMatrix("P", P);
 printMatrix("L", L);
 printMatrix("U", U);
 
-console.log("\nПромежуточные вычисления:");
-printVector("Pb", Pb);
-printVector("y", y);
+// console.log("\nПромежуточные вычисления:");
+// printVector("Pb", Pb);
+// printVector("y", y);
 
 console.log("\nРешение через LU:");
 printVector("x", xLU);
 
 // Сравнение
 console.log("\nСравнение решений:");
-console.log("Метод Гаусса:", xGauss);
-console.log("LU-разложение:", xLU);
+console.log("Метод Гаусса:", xGauss.map(e => e.toFixed(4)));
+console.log("LU-разложение:", xLU.map(e => e.toFixed(4)));
