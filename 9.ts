@@ -1,11 +1,11 @@
-const EPS = 1e-12;
+const EPS = 1e-5;
 function printVector(name: string, vector: number[]): void {
   console.log(
     `${name}:`,
     vector.map((value) => Number(value.toFixed(4))),
   );
 }
-function gaussSeidel(
+function seidel(
   A: number[][],
   b: number[],
   x0: number[],
@@ -51,11 +51,12 @@ function gaussSeidel(
 
   return x;
 }
-
-// 3
-// 1
-// 2
-
+// Расходится
+// const ASeidel = [
+//   [2, -2, 5],
+//   [-2, 2, 3],
+//   [-3, 0, -2],
+// ];
 const ASeidel = [
   [-3, 0, -2],
   [-2, 2, 3],
@@ -68,7 +69,7 @@ const bSeidel = [1, 2, 1];
 const x0 = [0, 0.01, 0.1];
 
 console.log("\nМетод Зейделя:");
-const xSeidel = gaussSeidel(ASeidel, bSeidel, x0, 20);
+const xSeidel = seidel(ASeidel, bSeidel, x0, 5);
 
 console.log("\nРешение методом Зейделя:");
 printVector("x", xSeidel);

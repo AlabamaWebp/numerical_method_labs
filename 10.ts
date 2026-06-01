@@ -71,15 +71,12 @@ function luDecompositionWithPivoting(A: number[][]): {
   const n = A.length;
 
   const U = A.map((row) => [...row]);
-
   const L = Array.from({ length: n }, () => Array(n).fill(0));
-
-  const P = Array.from({ length: n }, (_, i) =>
-    Array.from({ length: n }, (_, j) => (i === j ? 1 : 0)),
-  );
+  const P = Array.from({ length: n }, () => Array(n).fill(0));
 
   for (let i = 0; i < n; i++) {
     L[i][i] = 1;
+    P[i][i] = 1;
   }
 
   for (let k = 0; k < n; k++) {
@@ -101,7 +98,6 @@ function luDecompositionWithPivoting(A: number[][]): {
       [U[k], U[maxRow]] = [U[maxRow], U[k]];
       [P[k], P[maxRow]] = [P[maxRow], P[k]];
 
-      // В L меняем только уже заполненную часть
       for (let j = 0; j < k; j++) {
         [L[k][j], L[maxRow][j]] = [L[maxRow][j], L[k][j]];
       }
@@ -198,13 +194,13 @@ const y = forwardSubstitution(L, Pb);
 const xLU = backSubstitution(U, y);
 
 console.log("\nLU-разложение:");
-// printMatrix("P", P);
+printMatrix("P", P);
 printMatrix("L", L);
 printMatrix("U", U);
 
-// console.log("\nПромежуточные вычисления:");
-// printVector("Pb", Pb);
-// printVector("y", y);
+console.log("\nПромежуточные вычисления:");
+printVector("Pb", Pb);
+printVector("y", y);
 
 console.log("\nРешение через LU:");
 printVector("x", xLU);
