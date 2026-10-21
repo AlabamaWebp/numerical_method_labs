@@ -80,7 +80,6 @@ function luDecompositionWithPivoting(A: number[][]): {
   }
 
   for (let k = 0; k < n; k++) {
-    // Ищем строку с максимальным элементом в текущем столбце
     let maxRow = k;
 
     for (let i = k + 1; i < n; i++) {

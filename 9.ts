@@ -69,7 +69,7 @@ const bSeidel = [1, 2, 1];
 const x0 = [0, 0.01, 0.1];
 
 console.log("\nМетод Зейделя:");
-const xSeidel = seidel(ASeidel, bSeidel, x0, 5);
+const xSeidel = seidel(ASeidel, bSeidel, x0, 25);
 
 console.log("\nРешение методом Зейделя:");
 printVector("x", xSeidel);
