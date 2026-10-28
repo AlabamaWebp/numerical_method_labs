@@ -60,7 +60,7 @@ function gradientDescent(A: number[][], b: number[], x0: number[]): number[] {
     console.log(`Итерация ${iter}:`);
     console.log(`Шаг = ${step.toFixed(4)}`);
     printVector("x", x);
-    console.log(`Невязка = ${nextResidualNorm.toFixed(4)}`);
+    console.log(`Норма невязки = ${nextResidualNorm.toFixed(4)}`);
     console.log(`Уменьшение невязки = ${improvement.toFixed(4)}`);
 
     if (improvement <= IMPROVEMENT_TOLERANCE * Math.max(1, residualNorm)) {
@@ -118,4 +118,4 @@ printVector("Приближённое решение", xGradient);
 printVector("Точное решение", xExact);
 printVector("Разность", xGradient.map((value, i) => value - xExact[i]));
 const residual = multiplyMatrixVector(A, xGradient).map((value, i) => value - b[i]);
-console.log(`Невязка: ${Math.hypot(...residual).toFixed(4)}`);
+console.log(`Норма невязки: ${Math.hypot(...residual).toFixed(4)}`);
