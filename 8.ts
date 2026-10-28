@@ -7,7 +7,7 @@ const A = [
 const b = [2, 1, 1];
 const x0 = [0, 0.01, 0.1];
 const EPS = 1e-12;
-const IMPROVEMENT_TOLERANCE = 1e-10;
+const IMPROVEMENT_TOLERANCE = 0.01;
 const MAX_ITERATIONS = 10_000;
 
 function multiplyMatrixVector(A: number[][], x: number[]): number[] {
@@ -19,7 +19,7 @@ function dotProduct(a: number[], b: number[]): number {
 }
 
 function printVector(name: string, vector: number[]): void {
-  console.log(`${name}:`, vector.map((value) => Number(value.toFixed(4))));
+  console.log(`${name}: [${vector.map((value) => value.toFixed(4)).join(", ")}]`);
 }
 
 // Метод наискорейшего градиентного спуска для F(x) = ||Ax - b||² / 2
@@ -58,10 +58,10 @@ function gradientDescent(A: number[][], b: number[], x0: number[]): number[] {
     }
 
     console.log(`Итерация ${iter}:`);
-    console.log(`Шаг = ${step.toFixed(6)}`);
+    console.log(`Шаг = ${step.toFixed(4)}`);
     printVector("x", x);
-    console.log(`Норма невязки = ${nextResidualNorm.toExponential(6)}`);
-    console.log(`Уменьшение невязки = ${improvement.toExponential(6)}`);
+    console.log(`Норма невязки = ${nextResidualNorm.toFixed(4)}`);
+    console.log(`Уменьшение невязки = ${improvement.toFixed(4)}`);
 
     if (improvement <= IMPROVEMENT_TOLERANCE * Math.max(1, residualNorm)) {
       console.log("Остановка: точность перестала значимо улучшаться.");
@@ -118,4 +118,4 @@ printVector("Приближённое решение", xGradient);
 printVector("Точное решение", xExact);
 printVector("Разность", xGradient.map((value, i) => value - xExact[i]));
 const residual = multiplyMatrixVector(A, xGradient).map((value, i) => value - b[i]);
-console.log(`Норма невязки: ${Math.hypot(...residual).toExponential(6)}`);
+console.log(`Норма невязки: ${Math.hypot(...residual).toFixed(4)}`);
