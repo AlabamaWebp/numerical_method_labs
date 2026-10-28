@@ -1,13 +1,14 @@
 const A = [
-  [-2, 2, 3],
-  [2, -2, 5],
-  [-3, 0, -2],
+  [-2, 2, 3, 1],
+  [2, -2, 5, 1],
+  [-3, 0, -2, 1],
+  [1, 1, 1, 1],
 ];
 
-const b = [2, 1, 1];
-const x0 = [0, 0.01, 0.1];
+const b = [2, 1, 1, 1];
+const x0 = [0, 0.01, 0.1, 0.1];
 const EPS = 1e-12;
-const IMPROVEMENT_TOLERANCE = 0.01;
+const IMPROVEMENT_TOLERANCE = 0.001;
 const MAX_ITERATIONS = 10_000;
 
 function multiplyMatrixVector(A: number[][], x: number[]): number[] {
@@ -19,7 +20,9 @@ function dotProduct(a: number[], b: number[]): number {
 }
 
 function printVector(name: string, vector: number[]): void {
-  console.log(`${name}: [${vector.map((value) => value.toFixed(4)).join(", ")}]`);
+  console.log(
+    `${name}: [${vector.map((value) => value.toFixed(4)).join(", ")}]`,
+  );
 }
 
 // Метод наискорейшего градиентного спуска для F(x) = ||Ax - b||² / 2
@@ -45,7 +48,9 @@ function gradientDescent(A: number[][], b: number[], x0: number[]): number[] {
 
     const step = squaredGradient / denominator;
     const nextX = x.map((value, i) => value - step * gradient[i]);
-    const nextResidual = multiplyMatrixVector(A, nextX).map((value, i) => value - b[i]);
+    const nextResidual = multiplyMatrixVector(A, nextX).map(
+      (value, i) => value - b[i],
+    );
     const nextResidualNorm = Math.hypot(...nextResidual);
     const improvement = residualNorm - nextResidualNorm;
 
@@ -69,7 +74,9 @@ function gradientDescent(A: number[][], b: number[], x0: number[]): number[] {
     }
   }
 
-  throw new Error(`Не удалось достичь стабилизации за ${MAX_ITERATIONS} итераций`);
+  throw new Error(
+    `Не удалось достичь стабилизации за ${MAX_ITERATIONS} итераций`,
+  );
 }
 
 // Метод Гаусса с выбором главного элемента
@@ -116,6 +123,11 @@ const xExact = gaussianSolve(A, b);
 console.log("\nСравнение решений:");
 printVector("Приближённое решение", xGradient);
 printVector("Точное решение", xExact);
-printVector("Разность", xGradient.map((value, i) => value - xExact[i]));
-const residual = multiplyMatrixVector(A, xGradient).map((value, i) => value - b[i]);
+printVector(
+  "Разность",
+  xGradient.map((value, i) => value - xExact[i]),
+);
+const residual = multiplyMatrixVector(A, xGradient).map(
+  (value, i) => value - b[i],
+);
 console.log(`Норма невязки: ${Math.hypot(...residual).toFixed(4)}`);
