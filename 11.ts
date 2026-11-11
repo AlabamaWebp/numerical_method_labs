@@ -3,7 +3,7 @@ const X_MIN = -0.5;
 const X_MAX = 0.5;
 const Y0 = 1;
 // Десять шагов включают начальную точку x = 0 в равномерную сетку.
-const N = 10;
+const N = 50;
 const h = (X_MAX - X_MIN) / N;
 const REFERENCE_SUBSTEPS = 100;
 
@@ -112,5 +112,4 @@ for (let i = 0; i < N; i++) {
   const cauchyResidual = midpointResidual(x, cauchyValues[i], cauchyValues[i + 1], h);
   console.log(`${(x + h / 2).toFixed(4)}\t${improvedResidual.toFixed(6)}\t\t${cauchyResidual.toFixed(6)}`);
 }
-console.log("Невязка рассчитана по кубической интерполяции между узлами.");
 
